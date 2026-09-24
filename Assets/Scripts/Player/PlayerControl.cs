@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.InteropServices;
 using NUnit.Framework;
 using Unity;
 using Unity.Mathematics;
@@ -6,7 +7,10 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerControl : MonoBehaviour
-{
+{  
+    [Header("Movement Control Seting")]
+    [SerializeField] private float VelocidadDelantera; // ------->
+    [SerializeField] private float velocidadtrasera;   // <-------
 
     [Header("Sumative Variables for Ligth & Run ")]
     [SerializeField] public float Sumative_Ligth_float ; 
@@ -21,8 +25,13 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] public float RLigthLimit; 
    
     [Header ("PlayerControl")]
+    //jump
     [SerializeField] private float jumpforce; 
     [SerializeField] private float FallMultiplier; 
+
+    [SerializeField] private float Gravity;
+
+    //movement & camara
     [SerializeField] public float Base_MovementSpeed; 
     [SerializeField] private float BaseOn_RunSpeed; 
 
@@ -272,6 +281,7 @@ public class PlayerControl : MonoBehaviour
 
     void Awake()
     {
+        
         Increased_RunSpeed = BaseOn_RunSpeed; 
         rickbody = GetComponent<Rigidbody>(); 
     }
@@ -280,10 +290,6 @@ public class PlayerControl : MonoBehaviour
         controls(); 
         jump();
         Camara_Controler(); 
-    }
-    void FixedUpdate()
-    {
-        
     }
 
 }

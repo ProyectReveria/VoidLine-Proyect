@@ -25,8 +25,7 @@ public class WallCrashDamage : MonoBehaviour
             {
                 Pstadistics.PlayerHPStatus -= 20; 
             } 
-        Debug.Log($"player health : {Pstadistics.PlayerHPStatus}"); 
-        Debug.Log ($"player speed : {Pcontrol.Increased_RunSpeed}");
+
 
         
         }

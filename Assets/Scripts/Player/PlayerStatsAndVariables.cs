@@ -27,6 +27,7 @@ public class PlayerHPandStadistics : MonoBehaviour
                 PlayerControl.RLigthLimit *= 1.20f; 
                 break;
             case GameManager.Race.Demon:
+                PlayerControl.RLigthLimit *= 0.95f; 
                 IsDemon = true; 
                 break;
             case GameManager.Race.Human:

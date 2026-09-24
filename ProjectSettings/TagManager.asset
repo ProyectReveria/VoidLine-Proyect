@@ -6,6 +6,8 @@ TagManager:
   tags:
   - IsonFloor
   - IsonWall
+  - UI
+  - Wall jumpable wall
   layers:
   - Default
   - TransparentFX

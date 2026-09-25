@@ -1,17 +1,15 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using NUnit.Framework;
 using Unity;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerControl : MonoBehaviour
 {  
-    [Header("Movement Control Seting")]
-    [SerializeField] private float VelocidadDelantera; // ------->
-    [SerializeField] private float velocidadtrasera;   // <-------
-
     [Header("Sumative Variables for Ligth & Run ")]
     [SerializeField] public float Sumative_Ligth_float ; 
     [SerializeField] public float SumativeRange_Ligth_Float; 
@@ -25,7 +23,9 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] public float RLigthLimit; 
    
     [Header ("PlayerControl")]
-    //jump
+    //jump & climb
+    [SerializeField] private float ClimbSpeed;
+    [SerializeField] private float walljumpDirectionalMultiplayer; 
     [SerializeField] private float jumpforce; 
     [SerializeField] private float FallMultiplier; 
 
@@ -51,52 +51,75 @@ public class PlayerControl : MonoBehaviour
 
 //Not Serializable Variables
 //______________________________________________________________________________________________________________________________|
-    private float Ltime = 0f;                                                                                               
+    private float Ltime = 0f;                                                                                                      
 //______________________________________________________________________________________________________________________________|
     [SerializeField] public float Increased_RunSpeed; 
 //______________________________________________________________________________________________________________________________|
     public bool OnFloor;
+    public bool OnWallJump; 
 //______________________________________________________________________________________________________________________________|
-
+    private Vector3 PositionalJump_OnWallJump; 
 //______________________________________________________________________________________________________________________________|
     private Rigidbody rickbody;
 //______________________________________________________________________________________________________________________________|
 
 
     //Methods
-    private void OnCollisionEnter (Collision Floor)
+
+        //Collisions
+    private void OnCollisionEnter (Collision On_ObjectCollision)
     {
-        if (Floor.gameObject.CompareTag("IsonFloor"))
+        if (On_ObjectCollision.gameObject.CompareTag("IsonFloor"))
         {
             OnFloor = true; 
         }
-        
+
+        if (On_ObjectCollision.gameObject.CompareTag("Wall jumpable wall"))
+        {
+            OnWallJump = true;
+            PositionalJump_OnWallJump = On_ObjectCollision.contacts[0].normal; 
+        }
     }
 
-    private void OnCollisionExit(Collision Floor)
+    private void OnCollisionExit(Collision On_ObjectCollision)
     {
-        if (Floor.gameObject.CompareTag("IsonFloor"))
+        if (On_ObjectCollision.gameObject.CompareTag("IsonFloor"))
         {
             OnFloor = false; 
         }
+
+        if (On_ObjectCollision.gameObject.CompareTag("Wall jumpable wall"))
+        {
+            OnWallJump = false;
+        }
     }
-    
+
+    private void OrollerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.gameObject.CompareTag("Wall jumpable wall"))
+        {
+                Debug.Log("Hit");
+        }
+
+    }
+
+
     //Player Controls
 
     void controls()
     {
-        bool moving = Input.GetAxis("Horizontal") != 0f || Input.GetAxis("Vertical") != 0f;
-        bool OnRun = Input.GetKey(KeyCode.LeftShift); 
-        bool OnJump = Input.GetKey(KeyCode.Space); 
+        Keyboard Controls = Keyboard.current;
+        ///<Keyboard>
+        /// Unity en el Control.Package requiere de un identificador, eso es Keyboard.
+        /// Device.Key.Statement)
+        if (Controls == null) return;
 
-        float movx = Input.GetAxis("Horizontal"); //Recordar que "Horizontal | "Vertical" en unity implian Axis de X y Y en un Vector [x,y]. 
-        ///<Formula>
-        ///  [x,y] = [
-        ///         X + input{input = N + 1 or  N - 1}
-        ///         Y + input{input = N + 1 or N - 1}
-        ///         ]
-        /// on Vectorial Space
-        float movz = Input.GetAxis("Vertical"); 
+        bool OnRun = Controls.leftShiftKey.isPressed; 
+
+        float movx = (Controls.dKey.isPressed || Controls.rightArrowKey.isPressed ? 1f : 0f) - (Controls.aKey.isPressed || Controls.leftArrowKey.isPressed ? 1f : 0f);
+        float movz = (Controls.wKey.isPressed || Controls.upArrowKey.isPressed ? 1f : 0f) - (Controls.sKey.isPressed || Controls.downArrowKey.isPressed ? 1f : 0f);
+
+        bool moving = movx != 0f || movz != 0f;
 
         Directional_Movement = transform.right * movx + transform.forward * movz; 
 
@@ -104,26 +127,22 @@ public class PlayerControl : MonoBehaviour
         Ltime += Time.deltaTime; 
         if ( moving == true && OnRun == true )
         {
-
-           
-
             if (Ltime >= 0.1f)
             {
-                
                 if (Increased_RunSpeed < Limit_OnRunSpeed)
                 {
                     Increased_RunSpeed = Increased_RunSpeed + Sumative_MovementSpeed; 
-                     
-                } else if (Increased_RunSpeed >= Limit_OnRunSpeed)
+                } 
+                else if (Increased_RunSpeed >= Limit_OnRunSpeed)
                 {
                     Increased_RunSpeed = Limit_OnRunSpeed; 
-                    
                 }
 
                 if (PlayerLigth.range < RLigthLimit)
                 {
                     PlayerLigth.range += SumativeRange_Ligth_Float;
-                } else if (PlayerLigth.range >= RLigthLimit)
+                } 
+                else if (PlayerLigth.range >= RLigthLimit)
                 {
                     PlayerLigth.range = RLigthLimit; 
                 }
@@ -131,29 +150,29 @@ public class PlayerControl : MonoBehaviour
                 if (PlayerLigth.intensity < RLigthLimit)
                 {
                     PlayerLigth.intensity += Sumative_Ligth_float;
-                } else if (PlayerLigth.intensity >= RLigthLimit)
+                } 
+                else if (PlayerLigth.intensity >= RLigthLimit)
                 {
                     PlayerLigth.intensity = RLigthLimit; 
                 }
 
                 Ltime = 0; 
-
             }
 
             Vector3 targetVelocity = Directional_Movement * Increased_RunSpeed;
             Vector3 currentVelocity = rickbody.linearVelocity;
+            
+            targetVelocity.x = Mathf.Lerp(currentVelocity.x, targetVelocity.x, Time.deltaTime * 4f);
+            targetVelocity.z = Mathf.Lerp(currentVelocity.z, targetVelocity.z, Time.deltaTime * 4f);
             targetVelocity.y = currentVelocity.y;
+            
             rickbody.linearVelocity = targetVelocity;  
-
         } 
         
         if (moving == true && OnRun == false)
-
         {
-
             if (Ltime >= 0.1f)
             {
-                
                 if (Increased_RunSpeed > Base_MovementSpeed)
                 {
                     Increased_RunSpeed = Increased_RunSpeed - Sumative_MovementSpeed; 
@@ -180,25 +199,24 @@ public class PlayerControl : MonoBehaviour
                 {
                     PlayerLigth.intensity = RBaselight;
                 }
-               
 
                 Ltime = 0; 
-
             }
  
             Vector3 targetVelocity = Directional_Movement * Increased_RunSpeed;
             Vector3 currentVelocity = rickbody.linearVelocity;
+            
+            targetVelocity.x = Mathf.Lerp(currentVelocity.x, targetVelocity.x, Time.deltaTime * 4f);
+            targetVelocity.z = Mathf.Lerp(currentVelocity.z, targetVelocity.z, Time.deltaTime * 4f);
             targetVelocity.y = currentVelocity.y;
+            
             rickbody.linearVelocity = targetVelocity;  
-
         }
 
-        if ( moving == false)
+        if (moving == false)
         {
- 
             if (Ltime >= 0.1f)
             {
-
                 if (PlayerLigth.intensity > RBaselight)
                 {
                     PlayerLigth.intensity -= Sumative_Ligth_float;
@@ -227,69 +245,82 @@ public class PlayerControl : MonoBehaviour
                 }
 
                 Ltime = 0; 
-
             }
 
+            Vector3 currentVelocity = rickbody.linearVelocity;
+            currentVelocity.x = Mathf.Lerp(currentVelocity.x, 0f, Time.deltaTime * 4f);
+            currentVelocity.z = Mathf.Lerp(currentVelocity.z, 0f, Time.deltaTime * 4f);
+            rickbody.linearVelocity = currentVelocity;
         }
-        
     }
 
     void jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && (OnFloor || Mathf.Abs(rickbody.linearVelocity.y) < 0.01f))
+        Keyboard kb = Keyboard.current;
+        if (kb == null) return;
+
+        bool spaceDown = kb.spaceKey.wasPressedThisFrame;
+        bool spaceHeld = kb.spaceKey.isPressed;
+
+        if (spaceDown && !OnFloor && OnWallJump)
         {
             Vector3 vel = rickbody.linearVelocity; 
             vel.y = 0f; 
             rickbody.linearVelocity = vel; 
 
-            rickbody.AddForce(Vector3.up * jumpforce, ForceMode.Impulse ); 
+            Vector3 pushAway = PositionalJump_OnWallJump;
+            pushAway.y = 0f;
+
+            Vector3 finalImpulse = (Vector3.up * jumpforce) + (pushAway * (jumpforce * walljumpDirectionalMultiplayer));
+            rickbody.AddForce(finalImpulse, ForceMode.Impulse);
+        } 
+
+        else if (spaceHeld && !OnFloor && OnWallJump)
+        {
+            Vector3 vel = rickbody.linearVelocity; 
+            vel.y = ClimbSpeed; 
+            rickbody.linearVelocity = vel; 
+        }   
+
+        else if (spaceDown && (OnFloor || Mathf.Abs(rickbody.linearVelocity.y) < 0.01f))
+        {
+            Vector3 vel = rickbody.linearVelocity; 
+            vel.y = 0f; 
+            rickbody.linearVelocity = vel; 
+
+            rickbody.AddForce(Vector3.up * jumpforce, ForceMode.Impulse); 
             OnFloor = false;
         }
     }
-            //Camara Controls
 
-
+    //Camara Controls
     void Camara_Controler()
     {
-        float Ratonx = Input.GetAxis("Mouse X") * Camara_Rotation;
-        float RatonY = Input.GetAxis("Mouse Y") * Camara_Rotation; 
+        Mouse mouse = Mouse.current;
+        if (mouse == null) return;
+
+        Vector2 mouseDelta = mouse.delta.ReadValue();
+        float Ratonx = mouseDelta.x * Camara_Rotation * 0.02f;
+        float RatonY = mouseDelta.y * Camara_Rotation * 0.02f; 
 
         Rotacion_X_onCamara -= RatonY; 
         Rotacion_X_onCamara = Mathf.Clamp(Rotacion_X_onCamara, -90f, 90f); 
 
-        
-
-        
-        FPcamara.transform.localRotation = Quaternion.Euler(Rotacion_X_onCamara, 0,0); 
-
-        ///<Quaternions>
-        /// podemos definir algebraicamente que un cuaternion es:
-        /// 
-        /// [
-        /// X = Cx *
-        ///  CY, Y = sx * sy *sz
-        /// ]
-        /// 
-        /// [X] + [Y]
-        /// 
-        /// Tambien digase que Cx es un conjunto de Senos y CY de cosenos 
+        FPcamara.transform.localRotation = Quaternion.Euler(Rotacion_X_onCamara, 0, 0); 
         transform.Rotate(Vector3.up * Ratonx); 
-        
     }
 
     //Update & awake & FixedUpdate
-
     void Awake()
     {
-        
         Increased_RunSpeed = BaseOn_RunSpeed; 
         rickbody = GetComponent<Rigidbody>(); 
     }
+
     void Update()
     {
         controls(); 
         jump();
         Camara_Controler(); 
     }
-
 }

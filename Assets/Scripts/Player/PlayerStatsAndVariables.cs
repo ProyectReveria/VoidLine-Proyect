@@ -12,9 +12,13 @@ public class PlayerHPandStadistics : MonoBehaviour
 
 
         //Scripts & objects
+
+        [SerializeField] private GameObject player; 
         [SerializeField] private PlayerControl PlayerControl;  
 
         [SerializeField] private GameManager GameManager;
+
+        
         
 
 
@@ -39,7 +43,17 @@ public class PlayerHPandStadistics : MonoBehaviour
         
     }
 
+    void Update()
+    {
+        if (PlayerHPStatus == 0)
+        {
+            Destroy(player); 
+        }
+    }
+
 }
+
+
 
 [System.Serializable]
 public class Voidline_Stats

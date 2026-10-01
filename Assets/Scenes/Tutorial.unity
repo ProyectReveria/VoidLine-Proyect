@@ -1155,6 +1155,7 @@ GameObject:
   - component: {fileID: 340572395}
   - component: {fileID: 340572394}
   - component: {fileID: 340572393}
+  - component: {fileID: 340572397}
   m_Layer: 0
   m_Name: EnemyCube :D
   m_TagString: Enemy_Voidline
@@ -1255,6 +1256,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &340572397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 340572392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27902afb1eb3d454aa78957e7e583448, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VoidLine_EnemyType
+  Enemy: {fileID: 340572392}
+  NewEnemyData:
+    EnemyHP: 100
+    EnemyDamage: 0
+    Is_Active_Enemy: 0
 --- !u!1 &343155168
 GameObject:
   m_ObjectHideFlags: 0

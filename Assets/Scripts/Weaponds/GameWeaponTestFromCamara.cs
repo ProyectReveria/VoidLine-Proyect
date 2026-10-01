@@ -25,7 +25,7 @@ public class GameWeaponTestFromCamara : MonoBehaviour
         //variables
         Mouse Raton = Mouse.current; 
         RaycastHit hit; 
-        //code
+        //code      
         if (Raton == null){return;}
         Ray Gun_Ray = new Ray(PlayerCamara.transform.position, PlayerCamara.transform.forward); 
 
@@ -36,6 +36,10 @@ public class GameWeaponTestFromCamara : MonoBehaviour
                 if (hit.transform.gameObject.CompareTag("Enemy_Voidline"))
                 {
                     Debug.Log("EnemyVoidline"); 
+
+                    VoidLine_EnemyType VoidLineEnemy =   hit.transform.gameObject.GetComponent<VoidLine_EnemyType>(); 
+
+                    VoidLineEnemy.NewEnemyData.EnemyHP -= 10; 
                 }
             }
         }

@@ -8,6 +8,7 @@ TagManager:
   - IsonWall
   - UI
   - Wall jumpable wall
+  - Enemy_Voidline
   layers:
   - Default
   - TransparentFX

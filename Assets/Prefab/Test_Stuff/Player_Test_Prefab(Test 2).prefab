@@ -258,6 +258,7 @@ MonoBehaviour:
   HealthTextUI: {fileID: 1829401622864774673}
   WeapondUI: {fileID: 9008128715718499137}
   healthBarImage: {fileID: 0}
+  Weapon_1: {fileID: 0}
   Gmanagaer: {fileID: 0}
   WeaponManager: {fileID: 0}
   Stadistics: {fileID: 1831752845486133177}
@@ -892,7 +893,6 @@ GameObject:
   - component: {fileID: 5298051824536110965}
   - component: {fileID: 5221575848813604328}
   - component: {fileID: 4469811117437002589}
-  - component: {fileID: 430249871849669824}
   - component: {fileID: 1831752845486133177}
   - component: {fileID: 5104203380031782448}
   - component: {fileID: 1479206077171370489}
@@ -1003,20 +1003,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &430249871849669824
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8584442471255894364}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b8d3bd68f46ffc41833c745cd4137e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
-  Wmanager: {fileID: 0}
-  Pspeed: 4
 --- !u!114 &1831752845486133177
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -25,7 +25,7 @@ public class TheExplosivePackageScriptTest : MonoBehaviour
     void Update()
     {
         explosivepayload_Use();
-        Debug.Log(isoncollide); 
+        
     }
 
 

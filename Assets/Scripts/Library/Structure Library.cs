@@ -11,6 +11,8 @@ namespace VoidLine_LibaryOfStructures
             public  int EnemyDamage; 
 
             public  bool Is_Active_Enemy; 
+
+            public float AttackRange; 
         }
 
 
@@ -27,5 +29,14 @@ namespace VoidLine_LibaryOfStructures
 
             public  float Explosive_Payload_Force; 
         }
+        [System.Serializable]
+        public struct Weapond_Stats
+        {
+            public int magazing;
+            public int damaga;
+            public float reloadTime; 
+        }
     }
+
+    
 }

@@ -13,6 +13,7 @@ public class UIScriptPrototipe : MonoBehaviour
     [SerializeField] public Image healthBarImage; 
 
     [Header("stats")]
+    [SerializeField] GameWeaponTestFromCamara Weapon_1; 
     [SerializeField] GameManager Gmanagaer; 
     [SerializeField] WeaponManager WeaponManager; 
     [SerializeField] PlayerHPandStadistics Stadistics;
@@ -37,7 +38,13 @@ public class UIScriptPrototipe : MonoBehaviour
     { 
         if (WeaponManager.weapon1_Active)
         {
-            WeapondUI.text = "first"; 
+           if (Weapon_1.isreloding == false)
+            {
+                 WeapondUI.text = $"Weapond municion: {Weapon_1.Mag}| {Weapon_1.Weapon_Stats.magazing}"; 
+            }else if (Weapon_1.isreloding == true)
+            {
+                 WeapondUI.text = $"reloading"; 
+            }
         }
         else if (WeaponManager.Weapond2_Active)
         {

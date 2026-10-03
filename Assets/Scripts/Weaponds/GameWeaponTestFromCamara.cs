@@ -1,11 +1,14 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-
+using VoidLine_LibaryOfStructures; 
 public class GameWeaponTestFromCamara : MonoBehaviour
 {
     [Header ("@GameManager")]
     
     [SerializeField] private GameManager @GameManajer; 
+    [SerializeField] private WeaponManager @weaponmanager; 
     
     [Header ("LayerMask")]
 
@@ -17,14 +20,50 @@ public class GameWeaponTestFromCamara : MonoBehaviour
 
     [Header ("Weapond Stats")]
 
-    [SerializeField] private int weapond_Amunition; 
-    [SerializeField] private float Weapon_Damage;
+    [SerializeField] public EquipablesTools.Weapond_Stats Weapon_Stats;
+    //normal variables
+    public int Mag; 
+    public bool isreloding; 
+
+    //start
+    void Start()
+    {
+        Mag = Weapon_Stats.magazing; 
+    }
 
     void Update()
     {
-        //variables
+        Weapon_Accion(); 
+        weaponchange();
+    }
+
+    void weaponchange()
+    {
+        Keyboard ky = Keyboard.current; 
+        if (ky== null){return;}
+
+        if (ky.digit1Key.wasPressedThisFrame)
+        {
+            weaponmanager.weapon1_Active = true;
+            weaponmanager.Weapond2_Active = false;
+        }
+
+        if (ky.digit2Key.wasPressedThisFrame)
+        {
+            weaponmanager.weapon1_Active = false;
+            weaponmanager.Weapond2_Active = true;
+        }
+    }
+
+    void Weapon_Accion()
+    {
+                //variables
         Mouse Raton = Mouse.current; 
         RaycastHit hit; 
+        //Weapond
+
+        //delta
+        float time = Time.deltaTime; 
         //code      
         if (Raton == null){return;}
         Ray Gun_Ray = new Ray(PlayerCamara.transform.position, PlayerCamara.transform.forward); 
@@ -33,17 +72,45 @@ public class GameWeaponTestFromCamara : MonoBehaviour
         {
             if (Physics.Raycast(Gun_Ray, out hit, 60, ~Player_Mask))
             {
-                if (hit.transform.gameObject.CompareTag("Enemy_Voidline"))
+                if (hit.transform.gameObject.CompareTag("Enemy_Voidline") && isreloding == false && weaponmanager.weapon1_Active == true)
                 {
+                    if (Mag <= 0)
+                    {
+                        StartCoroutine(reload()); 
+                        return; 
+                    }
+                    --Mag; 
+
+
+
                     Debug.Log("EnemyVoidline"); 
 
                     VoidLine_EnemyType VoidLineEnemy =   hit.transform.gameObject.GetComponent<VoidLine_EnemyType>(); 
 
-                    VoidLineEnemy.NewEnemyData.EnemyHP -= 10; 
-                }
+                    VoidLineEnemy.NewEnemyData.EnemyHP -= Weapon_Stats.damaga; 
+                    
+                } else if (hit.transform.gameObject.CompareTag("Enemy_Voidline") == false&& isreloding == false && weaponmanager.weapon1_Active == true)
+            {
+                    if (Mag <= 0)
+                    {
+                        StartCoroutine(reload()); 
+                        return; 
+                    }
+                    --Mag; 
+            }
             }
         }
+    }
 
+    private IEnumerator reload()
+    {
+        isreloding = true; 
+        Debug.Log("Reloading");
+        yield return new WaitForSeconds(Weapon_Stats.reloadTime); 
+    
+        
 
+        Mag = Weapon_Stats.magazing; 
+        isreloding = false; 
     }
 }

@@ -1,3 +1,5 @@
+using System.Collections;
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.AI; 
 public class IA_Bahavior_Test : MonoBehaviour
@@ -9,10 +11,26 @@ public class IA_Bahavior_Test : MonoBehaviour
     [Header ("Enemy")]
     [SerializeField] GameObject enemy; 
     [SerializeField] VoidLine_EnemyType enemydata; 
+
+    [Header ("Player Stadistics")]
+    [SerializeField] PlayerHPandStadistics PlayerStats; 
     
     //Dynamic variables
     private float M_Distance; 
-    private NavMeshAgent Enemy_NAvMesh; 
+    private NavMeshAgent Enemy_NAvMesh;
+    private bool IframesActivte = false;
+    private bool IsCollide = false; 
+
+
+    void OnCollisionEnter(Collision HIT)
+    {
+        IsCollide = true; 
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        IsCollide = false; 
+    }
 
     void Start()
     {
@@ -26,6 +44,14 @@ public class IA_Bahavior_Test : MonoBehaviour
         if (M_Distance < enemydata.NewEnemyData.AttackRange)
         {
             Enemy_NAvMesh.isStopped = true;
+            if (IframesActivte == false && IsCollide)
+            {
+                PlayerStats.PlayerHPStatus -= enemydata.NewEnemyData.EnemyDamage; 
+                StartCoroutine(ImunityframesMomentum()); 
+            }
+
+                
+
         }
         else
         {
@@ -34,5 +60,15 @@ public class IA_Bahavior_Test : MonoBehaviour
         }
     }
 
+    private IEnumerator ImunityframesMomentum()
+    {
+        
+        IframesActivte = true; 
+
+        yield return new WaitForSeconds(PlayerStats.Iframes);
+
+        IframesActivte = false; 
+
+    }
 
 }

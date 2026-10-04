@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,7 +10,8 @@ public class TheExplosivePackageScriptTest : MonoBehaviour
 
     [SerializeField] GameObject explosivepayload;
     [Header("Payload Configs")]
-    [SerializeField] VoidLine_LibaryOfStructures.EquipablesTools.Explosive_Payload ExplosivePayload_Stadistics; 
+    [SerializeField] public VoidLine_LibaryOfStructures.EquipablesTools.Explosive_Payload ExplosivePayload_Stadistics; 
+    [SerializeField] private ExplosivePayloadSencore sensor; 
 
     [SerializeField] public bool isoncollide = false; 
 
@@ -19,45 +21,48 @@ public class TheExplosivePackageScriptTest : MonoBehaviour
     [SerializeField] GameObject Player; 
     [SerializeField] Camera PlayerCamara; 
     [SerializeField] PlayerHPandStadistics Player_Stadistics;
+    
 
     //Not SF variables
+
+    private bool CanUsePayload = true;
+    public int ActualAmountofPayloads;
+
+    void Awake()
+    {
+        ActualAmountofPayloads = ExplosivePayload_Stadistics.Payload_Inventory;
+    }
 
     void Update()
     {
         explosivepayload_Use();
-        
     }
-
-
-
-
 
     void explosivepayload_Use()
     {
         Keyboard ky = Keyboard.current; 
         if (ky == null) { return; }
 
-        if (ky.eKey.wasPressedThisFrame)
+        if (ky.eKey.wasPressedThisFrame && ActualAmountofPayloads > 0 && CanUsePayload) 
         {
+            --ExplosivePayload_Stadistics.Payload_Inventory; 
             Ray PayloadRay = new Ray(PlayerCamara.transform.position, PlayerCamara.transform.forward); 
             RaycastHit hit; 
             if (Physics.Raycast(PayloadRay, out hit, 40, ~Playermask))
             {
-
                 Vector3 RaycastHit = hit.point; 
-
                 GameObject New_Payload = Instantiate(explosivepayload,hit.point, Player.transform.rotation ); 
-                if ( isoncollide == true)
-                {
-                    Vector3 vel = rickbody.linearVelocity; 
-                    vel.y = 0f; 
-                    rickbody.linearVelocity = vel; 
-
-                    rickbody.AddForce(Vector3.up * ExplosivePayload_Stadistics.Explosive_Payload_Force, ForceMode.Impulse); 
-                }
+                StartCoroutine(PayloadCooldown()); 
                 Destroy(New_Payload,2f);  
             }
         }
+    }
+
+    private IEnumerator PayloadCooldown()
+    {
+        CanUsePayload = false; 
+        yield return new WaitForSeconds(ExplosivePayload_Stadistics.TimeBetweenPayload);
+        CanUsePayload = true; 
     }
 
 }

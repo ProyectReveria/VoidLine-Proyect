@@ -59,6 +59,8 @@ public class GameWeaponTestFromCamara : MonoBehaviour
     {
                 //variables
         Mouse Raton = Mouse.current; 
+        Keyboard ky = Keyboard.current; 
+        if (Raton == null || ky == null) { return;}
         RaycastHit hit; 
         //Weapond
 
@@ -81,8 +83,6 @@ public class GameWeaponTestFromCamara : MonoBehaviour
                     }
                     --Mag; 
 
-
-
                     Debug.Log("EnemyVoidline"); 
 
                     VoidLine_EnemyType VoidLineEnemy =   hit.transform.gameObject.GetComponent<VoidLine_EnemyType>(); 
@@ -100,6 +100,11 @@ public class GameWeaponTestFromCamara : MonoBehaviour
             }
             }
         }
+        if (ky.rKey.wasPressedThisFrame && isreloding == false && Mag != Weapon_Stats.magazing)
+        {
+            StartCoroutine(reload()); 
+            return; 
+        }
     }
 
     private IEnumerator reload()
@@ -107,10 +112,8 @@ public class GameWeaponTestFromCamara : MonoBehaviour
         isreloding = true; 
         Debug.Log("Reloading");
         yield return new WaitForSeconds(Weapon_Stats.reloadTime); 
-    
-        
-
         Mag = Weapon_Stats.magazing; 
         isreloding = false; 
+        
     }
 }

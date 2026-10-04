@@ -1,27 +1,37 @@
 using System;
+using System.Collections;
+using VoidLine_LibaryOfStructures; 
 using UnityEngine;
 
     //Player Stadistics ITSELF
 public class PlayerHPandStadistics : MonoBehaviour
 {
+        [Header ("PlayerGameObject & SpawnPoint")]
+
+        [SerializeField] public GameObject playergameobject; 
+        [SerializeField] public Vector3 Origin; 
+
         [Header("Referencial Data")]
-        [SerializeField] public Voidline_Stats PlayerStats; 
         [SerializeField] public bool Ishuman; 
         [SerializeField] public bool IsDemon; 
         [SerializeField] public Int64 PlayerHPStatus; 
+        [SerializeField] public float Iframes; 
+        [SerializeField] public bool playerisDead; 
 
+        [Header ("playerStats")]
+        [SerializeField] public GameManager.Race Race; 
+        [SerializeField] public Player_VoidLine_Stats.VoidLine_Statas VoidLineStats; 
 
-        //Scripts & objects
-
-        [SerializeField] private GameObject player; 
+        //Scripts & objects 
+        [Header ("Managers & Controls")]
         [SerializeField] private PlayerControl PlayerControl;  
 
         [SerializeField] private GameManager GameManager;
 
-        
-        
 
 
+
+        
 //Update & Awake
     void Awake()
     {
@@ -39,32 +49,34 @@ public class PlayerHPandStadistics : MonoBehaviour
             break; 
         }
 
-        PlayerHPStatus = PlayerStats.MaxHP; 
+        PlayerHPStatus = VoidLineStats.Max_HP; 
         
     }
 
     void Update()
     {
-        if (PlayerHPStatus == 0)
+        if (PlayerHPStatus <= 0)
         {
-            Destroy(player); 
+            StartCoroutine(PlayerIsDead_Scene());
+            playergameobject.transform.position = Origin; 
+            playerisDead = true; 
+            
+            
+        } else
+        {
+            playerisDead = false; 
         }
+    }
+    private IEnumerator PlayerIsDead_Scene()
+    {
+        PlayerControl.IsCamAndContBlock = true;
+
+        yield return new WaitForSeconds(VoidLineStats.DeadTime); 
+        PlayerHPStatus = VoidLineStats.Max_HP; 
+
+
+        playerisDead = false; 
+        PlayerControl.IsCamAndContBlock = false;
     }
 
 }
-
-
-
-[System.Serializable]
-public class Voidline_Stats
-{
-    public GameManager.Race Race; 
-    public Int64 MaxHP; 
-    public int Defence; 
-
-}
-    //GameControlReference
-
-    
-
-

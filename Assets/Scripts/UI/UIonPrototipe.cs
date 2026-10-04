@@ -1,8 +1,10 @@
 
+using System;
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
+using VoidLine_LibaryOfStructures;
 
 public class UIScriptPrototipe : MonoBehaviour
 {
@@ -10,13 +12,19 @@ public class UIScriptPrototipe : MonoBehaviour
 
     [SerializeField] public TMP_Text HealthTextUI; 
     [SerializeField] public TMP_Text WeapondUI; 
+    [SerializeField] public TMP_Text YouLose_TMP;
+    [SerializeField] public TMP_Text PayloadCounter; 
     [SerializeField] public Image healthBarImage; 
+
+    [Header ("PlayerMesseges")]
+    [SerializeField] private String Player_Die; 
 
     [Header("stats")]
     [SerializeField] GameWeaponTestFromCamara Weapon_1; 
     [SerializeField] GameManager Gmanagaer; 
     [SerializeField] WeaponManager WeaponManager; 
     [SerializeField] PlayerHPandStadistics Stadistics;
+    [SerializeField] TheExplosivePackageScriptTest ExplosivePayloadStadistics; 
     
     //UIMessegeforWeaponds
 
@@ -26,12 +34,14 @@ public class UIScriptPrototipe : MonoBehaviour
     {
         OverloadUIFunction(); 
         OverloadUIFunction_Weaponds();
+        OverloadUIFunction_PlayerisDead(); 
+        OverloadUIFunctrion_ExplosivePayload(); 
 
     }
 
     void OverloadUIFunction()
     {
-        HealthTextUI.text = "HP: " + Mathf.Ceil(Stadistics.PlayerHPStatus).ToString() + " | " + Stadistics.PlayerStats.MaxHP.ToString();  
+        HealthTextUI.text = "HP: " + Mathf.Ceil(Stadistics.PlayerHPStatus).ToString() + " | " + Stadistics.VoidLineStats.Max_HP.ToString();  
     }
 
     void OverloadUIFunction_Weaponds()
@@ -51,4 +61,20 @@ public class UIScriptPrototipe : MonoBehaviour
              WeapondUI.text = "second";    
         }
     }
+
+    void OverloadUIFunction_PlayerisDead()
+    {
+        if (Stadistics.playerisDead)
+        {
+            YouLose_TMP.text = Player_Die; 
+        } else {
+            YouLose_TMP.text = " "; 
+        }
+    }
+
+    void OverloadUIFunctrion_ExplosivePayload()
+    {
+        PayloadCounter.text = $"Payloads: {ExplosivePayloadStadistics.ActualAmountofPayloads} | {ExplosivePayloadStadistics.ExplosivePayload_Stadistics.Payload_Inventory} "; 
+    }
+
 }

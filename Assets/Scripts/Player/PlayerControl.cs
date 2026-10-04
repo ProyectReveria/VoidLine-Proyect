@@ -10,6 +10,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerControl : MonoBehaviour
 {  
+    [Header ("Is Player Dead and Lockin the Control& Camara")]
+    [SerializeField] public bool IsCamAndContBlock = false; 
     [Header("Sumative Variables for Ligth & Run ")]
     [SerializeField] public float Sumative_Ligth_float ; 
     [SerializeField] public float SumativeRange_Ligth_Float; 
@@ -319,8 +321,12 @@ public class PlayerControl : MonoBehaviour
 
     void Update()
     {
-        controls(); 
-        jump();
-        Camara_Controler(); 
+        if (IsCamAndContBlock) {return;}
+        
+            controls(); 
+            jump();
+            Camara_Controler(); 
+        
     }
+
 }

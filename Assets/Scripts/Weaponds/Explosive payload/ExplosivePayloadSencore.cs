@@ -24,16 +24,13 @@ public class ExplosivePayloadSencore : MonoBehaviour
 
                 if (rickbody != null)
                 {
+                    rickbody.AddForce(Vector3.up * Payload.ExplosivePayload_Stadistics.Explosive_Payload_Force);
                     rickbody.AddExplosionForce(Payload.ExplosivePayload_Stadistics.Explosive_Payload_Force, transform.position, Payload.ExplosivePayload_Stadistics.explosivepayload_Range, 0f, ForceMode.Impulse);
                 }
-            Vector3 vel = rickbody.linearVelocity; 
-            vel.y = Mathf.Max(vel.y, 3);
-            rickbody.linearVelocity = vel; 
+
             }
 
         }
-
-    
 
         if (other.gameObject.CompareTag(PlayerTags.Player))
         {

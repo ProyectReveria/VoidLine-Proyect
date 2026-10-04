@@ -6266,7 +6266,7 @@ MonoBehaviour:
     explosivepayload_Range: 5
     explosivepayload_Damage: 10
     explosivepayload_Damge_ToPlayer: 5
-    Explosive_Payload_Force: 5
+    Explosive_Payload_Force: 10
     TimeBetweenPayload: 2
     Payload_Inventory: 10
     ExploiveInput_Payload: 1

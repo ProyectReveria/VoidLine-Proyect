@@ -9,6 +9,7 @@ TagManager:
   - UI
   - Wall jumpable wall
   - Enemy_Voidline
+  - LootBoox
   layers:
   - Default
   - TransparentFX

@@ -43,7 +43,7 @@ public class TheExplosivePackageScriptTest : MonoBehaviour
         Keyboard ky = Keyboard.current; 
         if (ky == null) { return; }
 
-        if (ky.eKey.wasPressedThisFrame && ActualAmountofPayloads > 0 && CanUsePayload) 
+        if (ky.eKey.wasPressedThisFrame && ActualAmountofPayloads > 0 && CanUsePayload && ActualAmountofPayloads < 0) 
         {
             --ExplosivePayload_Stadistics.Payload_Inventory; 
             Ray PayloadRay = new Ray(PlayerCamara.transform.position, PlayerCamara.transform.forward); 

@@ -11,5 +11,10 @@ namespace VoidLine_Tags
         public static string VoidLine_Enemy = "Enemy_Voidline"; 
         
     }
+
+    public class ObjectsTag
+    {
+        public static string Box_Tag = "LootBoox"; 
+    }
     
 }

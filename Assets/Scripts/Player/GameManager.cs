@@ -9,4 +9,5 @@ public class GameManager : MonoBehaviour
         Human
     }
     [SerializeField] public Race player_Race; 
+    [SerializeField] public bool isinteracting; 
 }

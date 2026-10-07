@@ -25,6 +25,14 @@ public class GameWeaponTestFromCamara : MonoBehaviour
     public int Mag; 
     public bool isreloding; 
 
+    private bool IsPosibleTointeract = false; 
+
+    private struct RayCast_InteractionCast
+    {
+        public Ray Iray; 
+        public RaycastHit Iray_Hit; 
+    }
+
     //start
     void Start()
     {
@@ -35,6 +43,8 @@ public class GameWeaponTestFromCamara : MonoBehaviour
     {
         Weapon_Accion(); 
         weaponchange();
+        Interact(); 
+
     }
 
     void weaponchange()
@@ -74,7 +84,7 @@ public class GameWeaponTestFromCamara : MonoBehaviour
         {
             if (Physics.Raycast(Gun_Ray, out hit, 60, ~Player_Mask))
             {
-                if (hit.transform.gameObject.CompareTag("Enemy_Voidline") && isreloding == false && weaponmanager.weapon1_Active == true)
+                if (hit.transform.gameObject.CompareTag(VoidLine_Tags.EnemyTags.VoidLine_Enemy) && isreloding == false && weaponmanager.weapon1_Active == true)
                 {
                     if (Mag <= 0)
                     {
@@ -89,7 +99,7 @@ public class GameWeaponTestFromCamara : MonoBehaviour
 
                     VoidLineEnemy.NewEnemyData.EnemyHP -= Weapon_Stats.damaga; 
                     
-                } else if (hit.transform.gameObject.CompareTag("Enemy_Voidline") == false&& isreloding == false && weaponmanager.weapon1_Active == true)
+                } else if (hit.transform.gameObject.CompareTag(VoidLine_Tags.EnemyTags.VoidLine_Enemy) == false&& isreloding == false && weaponmanager.weapon1_Active == true)
             {
                     if (Mag <= 0)
                     {
@@ -115,5 +125,30 @@ public class GameWeaponTestFromCamara : MonoBehaviour
         Mag = Weapon_Stats.magazing; 
         isreloding = false; 
         
+    }
+
+    void Interact()
+    {
+        Keyboard ky = Keyboard.current; 
+        if (ky == null) {return; }
+        Ray Iray = new Ray (PlayerCamara.transform.position, PlayerCamara.transform.forward); 
+        RaycastHit IinteractRaycast; 
+        if (Physics.Raycast(Iray, out IinteractRaycast, 20, ~Player_Mask))
+        {
+            if (IinteractRaycast.transform.gameObject.CompareTag(VoidLine_Tags.ObjectsTag.Box_Tag))
+            {
+                GameManajer.isinteracting = true; 
+                if (ky.eKey.wasPressedThisFrame)
+                {
+                    _LootBoxTable Box = IinteractRaycast.transform.gameObject.GetComponent<_LootBoxTable>(); 
+
+                    Box.BoxDisapear = true; 
+                }
+            } 
+            else
+            {
+                GameManajer.isinteracting = false; 
+            }
+        }
     }
 }

@@ -10,6 +10,7 @@ public class UIScriptPrototipe : MonoBehaviour
 {
     [Header("User Interface Path Specification")]
 
+    [SerializeField] public TMP_Text Interact_UI; 
     [SerializeField] public TMP_Text HealthTextUI; 
     [SerializeField] public TMP_Text WeapondUI; 
     [SerializeField] public TMP_Text YouLose_TMP;
@@ -36,6 +37,7 @@ public class UIScriptPrototipe : MonoBehaviour
         OverloadUIFunction_Weaponds();
         OverloadUIFunction_PlayerisDead(); 
         OverloadUIFunctrion_ExplosivePayload(); 
+        OverloadUIFunction_InteractionShow(); 
 
     }
 
@@ -75,6 +77,18 @@ public class UIScriptPrototipe : MonoBehaviour
     void OverloadUIFunctrion_ExplosivePayload()
     {
         PayloadCounter.text = $"Payloads: {ExplosivePayloadStadistics.ActualAmountofPayloads} | {ExplosivePayloadStadistics.ExplosivePayload_Stadistics.Payload_Inventory} "; 
+    }
+
+    void OverloadUIFunction_InteractionShow()
+    {
+        if (Gmanagaer.isinteracting)
+        {
+            Interact_UI.text = "E"; 
+        } 
+        else
+        {
+            Interact_UI.text = " "; 
+        }
     }
 
 }

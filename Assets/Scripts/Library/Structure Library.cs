@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace VoidLine_LibaryOfStructures
 {
+    
     public class Player_VoidLine_Stats
     {
         [System.Serializable]
@@ -48,5 +49,31 @@ namespace VoidLine_LibaryOfStructures
         }
     }
 
+    public struct Enviorment_Objects_Loot
+    {
+        [System.Serializable]
+        public struct @Service_LootBox
+        {
+            [Header ("Items Probability")]
+            public float _LifePackage_Prob; 
+            public float _Payload_Prob; 
+            public float  _MunicionPayload; 
+            public float _None; 
+
+            [Header ("Quantity")]
+            public int _LifePackage_HealingByPackage; 
+            public int _Payload_AddtoInventoryAmount; 
+            public int _Municion_AddToInventory; 
+            [Header ("Item_Visuals")]
+
+            public GameObject LifePackage; 
+            public GameObject ExplosivePayload; 
+            public GameObject _MunicionPayLoad; 
+
+            [Header ("DropZone and Box")]
+            public Vector3 _LootPosition_AfterBox_Delete; 
+            public GameObject box;  
+        }
+    }
     
 }

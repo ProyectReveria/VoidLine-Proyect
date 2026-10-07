@@ -1,7 +1,11 @@
 
+//
+#if false
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[Obsolete ("Este Archivo ya no esta en uso y es parte de los testeos originales")]
 public class NewMonoBehaviourScript : MonoBehaviour
 {
     [SerializeField] public WeaponManager Wmanager; 
@@ -55,3 +59,5 @@ public class NewMonoBehaviourScript : MonoBehaviour
         }
     }
 }
+//todo esta obsoleto
+ #endif

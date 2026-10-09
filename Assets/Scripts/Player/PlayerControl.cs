@@ -2,16 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using NUnit.Framework;
+using RMC.SaveFile.EventLibrary;
 using Unity;
+using Unity.Loading;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerControl : MonoBehaviour
+
+    
 {  
     [Header ("Is Player Dead and Lockin the Control& Camara")]
-    [SerializeField] public bool IsCamAndContBlock = false; 
+    [SerializeField] public static bool IsCamAndContBlock = false; 
     [Header("Sumative Variables for Ligth & Run ")]
     [SerializeField] public float Sumative_Ligth_float ; 
     [SerializeField] public float SumativeRange_Ligth_Float; 
@@ -25,6 +29,7 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] public float RLigthLimit; 
    
     [Header ("PlayerControl")]
+    [SerializeField] private PlayerControl selfReference; 
     //jump & climb
     [SerializeField] private float ClimbSpeed;
     [SerializeField] private float walljumpDirectionalMultiplayer; 
@@ -312,21 +317,32 @@ public class PlayerControl : MonoBehaviour
         transform.Rotate(Vector3.up * Ratonx); 
     }
 
+    void Update_camarastats(bool i)
+    {
+     IsCamAndContBlock = i; 
+    }
+
     //Update & awake & FixedUpdate
     void Awake()
     {
         Increased_RunSpeed = BaseOn_RunSpeed; 
         rickbody = GetComponent<Rigidbody>(); 
+
+        EventLibrary.GameStartLoading.AddListener(Update_camarastats);
+        EventLibrary.GameendendLoading.AddListener(Update_camarastats);
     }
 
     void Update()
     {
+        
+        
         if (IsCamAndContBlock) {return;}
         
             controls(); 
             jump();
             Camara_Controler(); 
-        
     }
+
+
 
 }

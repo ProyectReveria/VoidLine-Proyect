@@ -8,13 +8,6 @@ namespace RMC.SaveFile.SaveComposition
 
     public class SaveFile_Data
     {
-        public UnityEvent SaveFileSerialization; 
-        public UnityEvent<bool> Loadend; 
-
-        class Update_PlayerData
-        {
-            
-        }
 
         [System.Serializable] 
         public static class GameData

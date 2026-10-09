@@ -42,6 +42,7 @@ public class _LootBoxTable : MonoBehaviour
         if (roll <= itemprob) 
         {
             Answer = true; 
+            Debug.Log("HealthPackageHitProbability");
         } else
         {
              Answer = false; 

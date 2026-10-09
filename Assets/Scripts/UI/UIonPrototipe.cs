@@ -43,7 +43,7 @@ public class UIScriptPrototipe : MonoBehaviour
 
     void OverloadUIFunction()
     {
-        HealthTextUI.text = "HP: " + Mathf.Ceil(Stadistics.PlayerHPStatus).ToString() + " | " + Stadistics.VoidLineStats.Max_HP.ToString();  
+        HealthTextUI.text = "HP: " + Stadistics.VoidLineStats.HP_Status.ToString() + " | " + Stadistics.VoidLineStats.Max_HP.ToString();  
     }
 
     void OverloadUIFunction_Weaponds()
@@ -76,7 +76,7 @@ public class UIScriptPrototipe : MonoBehaviour
 
     void OverloadUIFunctrion_ExplosivePayload()
     {
-        PayloadCounter.text = $"Payloads: {ExplosivePayloadStadistics.ActualAmountofPayloads} | {ExplosivePayloadStadistics.ExplosivePayload_Stadistics.Payload_Inventory} "; 
+        PayloadCounter.text = $"Payloads: {ExplosivePayloadStadistics.ExplosivePayload_Stadistics.In_InventoryPayload} | {ExplosivePayloadStadistics.ExplosivePayload_Stadistics.Payload_Inventory} "; 
     }
 
     void OverloadUIFunction_InteractionShow()

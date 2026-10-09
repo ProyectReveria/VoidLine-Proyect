@@ -1,6 +1,5 @@
 using UnityEngine;
 using VoidLine_Tags; 
-using VoidLine_Tags; 
 
 public class ExplosivePayloadSencore : MonoBehaviour
 {
@@ -34,7 +33,7 @@ public class ExplosivePayloadSencore : MonoBehaviour
 
         if (other.gameObject.CompareTag(PlayerTags.Player))
         {
-            Player_Stats.PlayerHPStatus -= Payload.ExplosivePayload_Stadistics.explosivepayload_Damge_ToPlayer; 
+            Player_Stats.VoidLineStats.HP_Status -= Payload.ExplosivePayload_Stadistics.explosivepayload_Damge_ToPlayer; 
            
         }
 

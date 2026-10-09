@@ -9,7 +9,7 @@ public class DeathZoneScript : MonoBehaviour
     {
         if (hit.gameObject.CompareTag("Player"))
         {
-            playerstadistics.PlayerHPStatus = 0; 
+            playerstadistics.VoidLineStats.HP_Status = 0; 
         }
     }
 

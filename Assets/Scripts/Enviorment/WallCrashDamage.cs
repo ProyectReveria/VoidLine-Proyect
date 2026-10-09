@@ -1,3 +1,4 @@
+#if obsolete
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -46,3 +47,4 @@ public class WallCrashDamage : MonoBehaviour
     }
 
 }
+#endif  

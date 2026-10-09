@@ -46,7 +46,7 @@ public class IA_Bahavior_Test : MonoBehaviour
             Enemy_NAvMesh.isStopped = true;
             if (IframesActivte == false && IsCollide)
             {
-                PlayerStats.PlayerHPStatus -= enemydata.NewEnemyData.EnemyDamage; 
+                PlayerStats.VoidLineStats.HP_Status -= enemydata.NewEnemyData.EnemyDamage; 
                 StartCoroutine(ImunityframesMomentum()); 
             }
 

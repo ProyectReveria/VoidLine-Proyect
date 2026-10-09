@@ -10,8 +10,13 @@ namespace VoidLine_LibaryOfStructures
         public struct VoidLine_Statas
         {
             public Int64 Max_HP; 
+
+            public Int64 HP_Status; 
             public float DeadTime; 
+            public Vector3 PlayerPosition; 
+            public Int64? Informacion_Money; 
         }
+
     }
     public   class EnemyStructures
     {
@@ -38,6 +43,8 @@ namespace VoidLine_LibaryOfStructures
             public  float Explosive_Payload_Force; 
             public float TimeBetweenPayload; 
             public int Payload_Inventory;
+
+            public int In_InventoryPayload; 
             public float ExploiveInput_Payload; 
         }
         [System.Serializable]
@@ -77,3 +84,4 @@ namespace VoidLine_LibaryOfStructures
     }
     
 }
+

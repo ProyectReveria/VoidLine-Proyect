@@ -20,12 +20,12 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientSkyColor: {r: 0, g: 0, b: 0, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
-  m_AmbientIntensity: 1
-  m_AmbientMode: 0
-  m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
+  m_AmbientIntensity: 0.755
+  m_AmbientMode: 3
+  m_SubtractiveShadowColor: {r: 0, g: 0, b: 0, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
@@ -195,6 +195,10 @@ PrefabInstance:
       propertyPath: sensor
       value: 
       objectReference: {fileID: 890502512}
+    - target: {fileID: 5172767900424099052, guid: fe09f65e7b017194e9916b0554b2c203, type: 3}
+      propertyPath: isoncollide
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5172767900424099052, guid: fe09f65e7b017194e9916b0554b2c203, type: 3}
       propertyPath: explosivepayload
       value: 

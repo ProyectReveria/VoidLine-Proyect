@@ -26,11 +26,11 @@ public class TheExplosivePackageScriptTest : MonoBehaviour
     //Not SF variables
 
     private bool CanUsePayload = true;
-    public int ActualAmountofPayloads;
+
 
     void Awake()
     {
-        ActualAmountofPayloads = ExplosivePayload_Stadistics.Payload_Inventory;
+        ExplosivePayload_Stadistics.In_InventoryPayload = ExplosivePayload_Stadistics.Payload_Inventory;
     }
 
     void Update()
@@ -43,7 +43,7 @@ public class TheExplosivePackageScriptTest : MonoBehaviour
         Keyboard ky = Keyboard.current; 
         if (ky == null) { return; }
 
-        if (ky.eKey.wasPressedThisFrame && ActualAmountofPayloads > 0 && CanUsePayload && ActualAmountofPayloads < 0) 
+        if (ky.eKey.wasPressedThisFrame && ExplosivePayload_Stadistics.In_InventoryPayload > 0 && CanUsePayload) 
         {
             --ExplosivePayload_Stadistics.Payload_Inventory; 
             Ray PayloadRay = new Ray(PlayerCamara.transform.position, PlayerCamara.transform.forward); 

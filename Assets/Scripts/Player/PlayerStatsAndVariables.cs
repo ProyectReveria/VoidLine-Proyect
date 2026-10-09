@@ -14,7 +14,7 @@ public class PlayerHPandStadistics : MonoBehaviour
         [Header("Referencial Data")]
         [SerializeField] public bool Ishuman; 
         [SerializeField] public bool IsDemon; 
-        [SerializeField] public Int64 PlayerHPStatus; 
+
         [SerializeField] public float Iframes; 
         [SerializeField] public bool playerisDead; 
 
@@ -49,13 +49,13 @@ public class PlayerHPandStadistics : MonoBehaviour
             break; 
         }
 
-        PlayerHPStatus = VoidLineStats.Max_HP; 
+        VoidLineStats.HP_Status = VoidLineStats.Max_HP; 
         
     }
 
     void Update()
     {
-        if (PlayerHPStatus <= 0)
+        if (VoidLineStats.HP_Status <= 0)
         {
             StartCoroutine(PlayerIsDead_Scene());
             playergameobject.transform.position = Origin; 
@@ -72,7 +72,7 @@ public class PlayerHPandStadistics : MonoBehaviour
         PlayerControl.IsCamAndContBlock = true;
 
         yield return new WaitForSeconds(VoidLineStats.DeadTime); 
-        PlayerHPStatus = VoidLineStats.Max_HP; 
+        VoidLineStats.HP_Status = VoidLineStats.Max_HP; 
 
 
         playerisDead = false; 
